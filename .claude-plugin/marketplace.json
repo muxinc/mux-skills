@@ -1,0 +1,27 @@
+{
+  "name": "mux",
+  "owner": {
+    "name": "Mux",
+    "url": "https://mux.com"
+  },
+  "metadata": {
+    "description": "Agent skills for building with Mux: the CLI, the API, and current documentation.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "mux",
+      "source": "./plugins/mux",
+      "description": "Teaches agents how to work with Mux — CLI commands, docs routing, and conventions — so they build with Mux correctly on the first try.",
+      "author": {
+        "name": "Mux",
+        "url": "https://mux.com"
+      },
+      "homepage": "https://docs.mux.com",
+      "repository": "https://github.com/muxinc/skills",
+      "license": "MIT",
+      "keywords": ["mux", "video", "live-streaming", "playback", "webhooks", "mux-data"],
+      "category": "development"
+    }
+  ]
+}

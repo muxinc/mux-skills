@@ -1,0 +1,13 @@
+{
+  "name": "mux",
+  "description": "Teaches agents how to work with Mux — CLI commands, docs routing, and conventions — so they build with Mux correctly on the first try.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Mux",
+    "url": "https://mux.com"
+  },
+  "homepage": "https://docs.mux.com",
+  "repository": "https://github.com/muxinc/skills",
+  "license": "MIT",
+  "keywords": ["mux", "video", "live-streaming", "playback", "webhooks", "mux-data"]
+}
