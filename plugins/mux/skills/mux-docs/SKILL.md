@@ -1,42 +1,45 @@
 ---
 name: mux-docs
-description: Use for any question about Mux APIs, SDKs, the mux CLI, webhooks, assets, uploads, playback, live streaming, Mux Data, or Mux Robots when the mux CLI is installed. Discovers current Mux documentation locally with `mux docs search` and `mux docs read`, and keeps the local docs cache up to date with `mux docs update` — always prefer this over web search or answering from memory.
+description: Use for any question about Mux APIs, SDKs, the mux CLI, webhooks, assets, uploads, playback, live streaming, Mux Data, or Mux Robots when the mux CLI is installed. Fetches the latest published Mux documentation with `mux docs update` and searches it with `mux docs search` / `mux docs read` — always prefer this over web search or answering from memory.
 ---
 
 # Mux docs discovery
 
-The `mux` CLI ships a local, searchable index of the current Mux documentation. For any Mux question, search this index before using web search or answering from memory — API shapes and guidance change, and the local index matches what Mux publishes today.
+The `mux` CLI does not ship with documentation. That is the point: `mux docs update` downloads the latest published docs from docs.mux.com, and `mux docs search` / `mux docs read` query that download — so answers always reflect what Mux publishes today, not whatever the CLI or the model was trained on. For any Mux question, use this before web search or answering from memory.
 
 ## Workflow
 
-1. Search the docs index:
+1. Fetch the latest published docs (also run this whenever the download might be old — it is a snapshot from the moment it was fetched):
+
+   ```bash
+   mux docs update
+   ```
+
+2. Search the docs:
 
    ```bash
    mux docs search "<topic>" --json
    ```
 
-2. Read the most relevant result:
+3. Read the most relevant result:
 
    ```bash
    mux docs read "<doc-id>" --format markdown
    ```
 
-3. Answer using the retrieved content. Cite the page by its `doc.id` and `doc.url`.
+4. Answer using the retrieved content. Cite the page by its `doc.id` and `doc.url`.
 
-Only fall back to web search if the search fails, the index has no relevant result, or the user explicitly asks for external results. If the index has nothing, the network fallback is https://www.mux.com/llms.txt (index of every docs page as markdown).
+Only fall back to web search if the search fails, the docs have no relevant result, or the user explicitly asks for external results. If nothing matches, the network fallback is https://www.mux.com/llms.txt (index of every docs page as markdown).
 
 ## Keeping docs up to date
 
-The index is a local cache. Keep it current:
+What `mux docs update` downloads is the docs published at that moment (manifest and index from `docs.mux.com/.well-known/mux-docs/`). Re-run it:
 
-- If `mux docs search` reports an empty or missing cache, populate it:
+- Before answering, if you have not updated in this session.
+- Whenever `mux docs search` reports a missing or empty download.
+- If results look stale — a doc contradicts observed API behavior, or the user says the docs changed.
 
-  ```bash
-  mux docs update
-  ```
-
-- If results look stale (a doc contradicts observed API behavior, or the user says the docs changed), run `mux docs update` and search again.
-- For local pre-deploy testing against generated artifacts in a `mux.com` checkout:
+For local pre-deploy testing against generated artifacts in a `mux.com` checkout:
 
   ```bash
   mux docs update --artifact-path ../mux.com/apps/web/public/.well-known/mux-docs

@@ -30,7 +30,7 @@ Copy `plugins/mux/skills/*` into your agent's skills directory (e.g. `.claude/sk
 | Skill | What it does |
 | --- | --- |
 | [`mux`](plugins/mux/skills/mux/SKILL.md) | General Mux skill: CLI auth and command map, webhooks-for-local-dev flow, docs routing to live markdown docs, and conventions/pitfalls (don't poll asset status, verify webhook signatures, playback ID vs. asset ID, signed vs. public policy). |
-| [`mux-docs`](plugins/mux/skills/mux-docs/SKILL.md) | Docs discovery via the Mux CLI: `mux docs search` / `mux docs read` before web search or memory, and `mux docs update` to keep the local docs index current. |
+| [`mux-docs`](plugins/mux/skills/mux-docs/SKILL.md) | Docs discovery via the Mux CLI: `mux docs update` fetches the latest published docs from docs.mux.com, then `mux docs search` / `mux docs read` answer from them instead of web search or memory. |
 | [`mux-clipping`](plugins/mux/skills/mux-clipping/SKILL.md) | Clipping workflows: choosing between instant clips (playback URL parameters, no re-encoding) and asset-based clips (`mux://assets` input with `start_time`/`end_time`), with the pitfalls of each. |
 | [`mux-robots`](plugins/mux/skills/mux-robots/SKILL.md) | AI workflows on video with Mux Robots: summarize, chapters, moderation, key moments, caption translation via `mux robots`, plus async job handling and directives. |
 
