@@ -36,7 +36,8 @@ Check availability with `mux --version`. If it is not installed, direct the user
 | Mux Data: views, metrics, real-time, incidents | `mux video-views`, `mux metrics`, `mux monitoring`, `mux incidents` (all `--agent`) |
 | Data exports / annotations / dimensions / errors | `mux exports`, `mux annotations`, `mux dimensions`, `mux errors` (all `--agent`) |
 | Delivery/billing usage | `mux delivery-usage --agent` |
-| Search and read current Mux docs | `mux docs search`, `mux docs read` (see the `mux-docs` skill) |
+
+For finding current Mux documentation, see the Docs routing section below and the `mux-docs` skill.
 
 Run `mux <command> --help` for flags; do not guess flag names.
 

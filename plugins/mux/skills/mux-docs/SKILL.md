@@ -1,80 +1,47 @@
 ---
 name: mux-docs
-description: Use for any question about Mux APIs, SDKs, the mux CLI, webhooks, assets, uploads, playback, live streaming, Mux Data, or Mux Robots when the mux CLI is installed. Fetches the latest published Mux documentation with `mux docs update` and searches it with `mux docs search` / `mux docs read` — always prefer this over web search or answering from memory.
+description: Use for any question about Mux APIs, SDKs, the mux CLI, webhooks, assets, uploads, playback, live streaming, Mux Data, or Mux Robots. Finds the current Mux documentation — Mux publishes every docs page as LLM-ready markdown indexed at mux.com/llms.txt — so answers come from today's published docs instead of web search or model memory.
 ---
 
 # Mux docs discovery
 
-The `mux` CLI does not ship with documentation. That is the point: `mux docs update` downloads the latest published docs from docs.mux.com, and `mux docs search` / `mux docs read` query that download — so answers always reflect what Mux publishes today, not whatever the CLI or the model was trained on. For any Mux question, use this before web search or answering from memory.
+Mux publishes its entire documentation as agent-ready markdown, auto-generated from the same source as the real docs site. For any Mux question, fetch the relevant page and answer from it — never answer Mux API questions from memory, because API shapes and guidance change.
 
 ## Workflow
 
-1. Fetch the latest published docs (also run this whenever the download might be old — it is a snapshot from the moment it was fetched):
+1. **Route.** Pick the most specific starting point:
+   - A known page URL (see collection indexes below to find one).
+   - A collection index for the topic area (small, fast to scan).
+   - https://www.mux.com/llms.txt — the master index of every docs page — when you don't know where the topic lives.
+2. **Fetch** the page's markdown. Every docs page has a markdown version: append `.md` to its URL (e.g. `https://www.mux.com/docs/guides/start-live-streaming.md`).
+3. **Answer from the fetched content** and cite the page URL.
 
-   ```bash
-   mux docs update
-   ```
+## Collection indexes
 
-2. Search the docs:
+| Collection | URL |
+| --- | --- |
+| Core concepts | https://www.mux.com/docs/core.txt |
+| Video: upload, encode, manage assets | https://www.mux.com/docs/guides/video.txt |
+| Uploader: handle user uploads | https://www.mux.com/docs/guides/uploader.txt |
+| Player: embed video playback | https://www.mux.com/docs/guides/player.txt |
+| Data: playback quality and analytics | https://www.mux.com/docs/guides/data.txt |
+| Data integrations: third-party player monitoring | https://www.mux.com/docs/guides/data-integrations.txt |
+| Framework integrations and SDKs | https://www.mux.com/docs/integrations.txt |
+| Example implementations | https://www.mux.com/docs/examples.txt |
+| Pricing and billing | https://www.mux.com/docs/pricing.txt |
 
-   ```bash
-   mux docs search "<topic>" --json
-   ```
+`https://www.mux.com/llms-full.txt` is the entire documentation in one file — very large; prefer per-page fetches.
 
-3. Read the most relevant result:
+## Self-healing
 
-   ```bash
-   mux docs read "<doc-id>" --format markdown
-   ```
+If a docs URL 404s, the docs have likely been reorganized. Do not give up after one 404: fetch https://www.mux.com/llms.txt, search it for the topic, and use the current URL.
 
-4. Answer using the retrieved content. Cite the page by its `doc.id` and `doc.url`.
+## Staying in sync
 
-Only fall back to web search if the search fails, the docs have no relevant result, or the user explicitly asks for external results. If nothing matches, the network fallback is https://www.mux.com/llms.txt (index of every docs page as markdown).
-
-## Keeping docs up to date
-
-What `mux docs update` downloads is the docs published at that moment (manifest and index from `docs.mux.com/.well-known/mux-docs/`). Re-run it:
-
-- Before answering, if you have not updated in this session.
-- Whenever `mux docs search` reports a missing or empty download.
-- If results look stale — a doc contradicts observed API behavior, or the user says the docs changed.
-
-For local pre-deploy testing against generated artifacts in a `mux.com` checkout:
-
-  ```bash
-  mux docs update --artifact-path ../mux.com/apps/web/public/.well-known/mux-docs
-  ```
-
-### Docs sources
-
-The CLI resolves docs in this order:
-
-1. Cached published manifest/index populated by `mux docs update` (downloaded from docs.mux.com)
-2. `--source <path>`
-3. `MUX_DOCS_PATH`
-4. A sibling `../mux.com` checkout, for local Mux development
-
-## Inside the CLI repo
-
-If working in the `muxinc/cli` repo itself and `mux` is not installed globally, use the dev entrypoint:
-
-```bash
-pnpm dev docs search "<topic>" --json
-pnpm dev docs read "<doc-id>" --format markdown
-```
-
-## Example
-
-User asks: "How do I verify Mux webhook signatures?"
-
-```bash
-mux docs search "verify webhook signatures" --json
-mux docs read verify-webhook-signatures --format markdown
-```
-
-Then answer from the retrieved doc, citing its `doc.id` and `doc.url`.
+- This skill is distributed from the `muxinc/skills` repository. If the Mux CLI is installed, refresh installed skills with `mux skills update`; otherwise pull the latest from https://github.com/muxinc/skills.
+- If the installed `mux` CLI provides `mux docs` subcommands (`mux docs search` / `mux docs read` — available in newer versions), prefer them over raw fetching: they search a downloaded copy of the same published docs. Check with `mux docs --help`; if the command doesn't exist, use the fetch workflow above.
 
 ## Guardrails
 
-- Do not mutate Mux resources (create/update/delete) unless the user explicitly asks.
-- For write or delete operations, state the intended action first and confirm if there is any ambiguity — deletes are permanent.
+- Cite the docs page URL you answered from.
+- If the network is unavailable, say you could not verify against current docs — never guess API request/response shapes from memory.

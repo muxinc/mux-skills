@@ -6,6 +6,8 @@ This repo is the source of truth for all Mux agent skills and doubles as the Cla
 
 ## Install
 
+This repo ships independently of the Mux CLI — it is the single source of truth, and every channel below pulls from it.
+
 ### Claude Code (plugin marketplace)
 
 ```
@@ -16,21 +18,22 @@ This repo is the source of truth for all Mux agent skills and doubles as the Cla
 ### Mux CLI
 
 ```bash
-mux skills install
+mux skills install   # fetch skills from this repo into detected agent directories
+mux skills update    # refresh previously installed skills to the latest version
 ```
 
-Writes the skills into detected agent directories (`.claude/skills/`, Codex/Cursor equivalents) at project level by default, with a version stamp so the CLI can offer a refresh on upgrade.
+The CLI pulls skills from this repository rather than bundling them, so installed skills stay in sync with changes here. Skills are written to detected agent directories (`.claude/skills/`, Codex/Cursor equivalents) at project level by default, with a version stamp.
 
 ### Manual
 
-Copy `plugins/mux/skills/*` into your agent's skills directory (e.g. `.claude/skills/`).
+Clone this repo and copy `plugins/mux/skills/*` into your agent's skills directory (e.g. `.claude/skills/`). Skills are plain `SKILL.md` files with no dependency on the Mux CLI — they work in any agent that supports the [Agent Skills](https://agentskills.io) format.
 
 ## Skills
 
 | Skill | What it does |
 | --- | --- |
 | [`mux`](plugins/mux/skills/mux/SKILL.md) | General Mux skill: CLI auth and command map, webhooks-for-local-dev flow, docs routing to live markdown docs, and conventions/pitfalls (don't poll asset status, verify webhook signatures, playback ID vs. asset ID, signed vs. public policy). |
-| [`mux-docs`](plugins/mux/skills/mux-docs/SKILL.md) | Docs discovery via the Mux CLI: `mux docs update` fetches the latest published docs from docs.mux.com, then `mux docs search` / `mux docs read` answer from them instead of web search or memory. |
+| [`mux-docs`](plugins/mux/skills/mux-docs/SKILL.md) | Docs discovery: routes agents to Mux's live LLM-ready docs (`mux.com/llms.txt`, collection indexes, per-page markdown) so answers come from today's published docs, not web search or model memory. |
 | [`mux-clipping`](plugins/mux/skills/mux-clipping/SKILL.md) | Clipping workflows: choosing between instant clips (playback URL parameters, no re-encoding) and asset-based clips (`mux://assets` input with `start_time`/`end_time`), with the pitfalls of each. |
 | [`mux-robots`](plugins/mux/skills/mux-robots/SKILL.md) | AI workflows on video with Mux Robots: summarize, chapters, moderation, key moments, caption translation via `mux robots`, plus async job handling and directives. |
 
