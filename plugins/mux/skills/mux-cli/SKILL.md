@@ -79,7 +79,7 @@ Run `mux <command> --help` for exact flags — never guess flag names. The insta
 
 ### Agent docs
 
-`mux docs path --agent` prints the installed paths to the CLI's embedded agent skill, bundled docs, and AGENTS.md — useful for offline docs access.
+Newer CLI versions provide `mux docs path --agent`, which writes the CLI's embedded agent skills to disk and prints their paths. These are the skill instruction files only — the CLI ships no documentation content; docs are always fetched live from mux.com. Check `mux docs --help`; if absent, use the `mux-docs` skill's live-fetch workflow.
 
 ## Mux Robots (AI jobs)
 
