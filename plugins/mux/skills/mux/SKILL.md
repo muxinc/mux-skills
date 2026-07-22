@@ -37,7 +37,7 @@ Check availability with `mux --version`. If it is not installed, direct the user
 | Data exports / annotations / dimensions / errors | `mux exports`, `mux annotations`, `mux dimensions`, `mux errors` (all `--agent`) |
 | Delivery/billing usage | `mux delivery-usage --agent` |
 
-For finding current Mux documentation, see the Docs routing section below and the `mux-docs` skill.
+This is the high-traffic subset. For the complete command reference — every subcommand plus Mux Robots AI jobs (`mux robots`) — see the `mux-cli` skill. For finding current Mux documentation, see the Docs routing section below and the `mux-docs` skill.
 
 Run `mux <command> --help` for flags; do not guess flag names.
 

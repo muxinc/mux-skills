@@ -53,7 +53,7 @@ Pitfalls:
 - **Minimum clip length is 500 ms.**
 - The clip is a new asset in `preparing` status — wait for the `video.asset.ready` webhook (don't poll) before playback.
 - Captions/text tracks are automatically copied and trimmed to the clip boundaries.
-- For AI-assisted clipping (find the interesting moments first), see the `mux-robots` skill (`mux robots find-key-moments`).
+- For AI-assisted clipping (find the interesting moments first), see the `mux-cli` skill (`mux robots find-key-moments`).
 
 ## Docs
 
